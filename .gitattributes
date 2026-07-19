@@ -1,0 +1,17 @@
+# Normalize line endings: store text as LF in the repo, check out native on Windows.
+* text=auto
+
+# Explicit text types (kept LF in-repo)
+*.md    text
+*.json  text
+*.html  text
+*.yml   text
+*.yaml  text
+*.py    text
+
+# Binary files — never touch line endings
+*.evtx  binary
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.zip   binary
