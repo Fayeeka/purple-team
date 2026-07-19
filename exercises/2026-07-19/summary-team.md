@@ -11,7 +11,7 @@ Validate the organization's detection coverage against the Iran-nexus **Screenin
 
 ## 2. Methodology
 End-to-end purple-team loop:
-1. **Threat intel ingest** — parsed the Unit 42 report; extracted 24 TTPs, 14 flagged "Simulate".
+1. **Threat intel ingest** — parsed the Unit 42 report; extracted 26 TTPs (distinct ATT&CK IDs), 14 flagged "Simulate".
 2. **Test planning** — mapped Simulate-priority techniques to Atomic Red Team tests (`atomic-mapper` agent).
 3. **Execution** — sample-EVTX substitution (no dedicated lab per project constraints).
 4. **Detection analysis** — scanned EVTX with Hayabusa 1.28.1 (`json-timeline`).

@@ -18,7 +18,7 @@ Threat source: Unit 42, Palo Alto Networks
 
 ## Slide 3 — What We Did
 - Ran our threat-intel-to-detection pipeline end-to-end against this campaign.
-- Extracted **24 attacker techniques**; prioritized **14** for simulation.
+- Extracted **26 attacker techniques** (distinct ATT&CK IDs); prioritized **14** for simulation.
 - Scanned endpoint logs with automated detection tooling; staged SIEM correlation.
 
 ## Slide 4 — Headline Result
