@@ -1,0 +1,339 @@
+<style>
+  :root {
+    /* violet-biased neutrals — light theme */
+    --ground: #FBFAFC;
+    --surface: #FFFFFF;
+    --surface-2: #F3F2F7;
+    --line: #E4E2EC;
+    --line-strong: #CFccdd;
+    --ink: #1A1823;
+    --ink-2: #4B4858;
+    --muted: #8A8C99;
+    --accent: #6E56CF;
+    --accent-ink: #5B44BC;
+    --accent-wash: #EFEBFB;
+    /* reserved status */
+    --critical: #D5383D;
+    --caution: #B5730A;
+    --good: #1F8A54;
+    --neutral: #8A8C99;
+    --crit-wash: #FBEBEC;
+    --good-wash: #E7F4EC;
+    --neutral-wash: #EEEDF1;
+
+    --maxw: 940px;
+    --r: 10px;
+    --mono: "Cascadia Code", "JetBrains Mono", Consolas, ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0F1118;
+      --surface: #161826;
+      --surface-2: #1D2032;
+      --line: #262A3D;
+      --line-strong: #343954;
+      --ink: #ECEBF4;
+      --ink-2: #A9A7BD;
+      --muted: #7B7D91;
+      --accent: #9885F0;
+      --accent-ink: #B4A5F7;
+      --accent-wash: #211F3A;
+      --critical: #F1666A;
+      --caution: #E0A22E;
+      --good: #45C07E;
+      --neutral: #7B7D91;
+      --crit-wash: #2E1A1F;
+      --good-wash: #14271E;
+      --neutral-wash: #1E2130;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #FBFAFC; --surface: #FFFFFF; --surface-2: #F3F2F7; --line: #E4E2EC;
+    --line-strong: #CFccdd; --ink: #1A1823; --ink-2: #4B4858; --muted: #8A8C99;
+    --accent: #6E56CF; --accent-ink: #5B44BC; --accent-wash: #EFEBFB;
+    --critical: #D5383D; --caution: #B5730A; --good: #1F8A54; --neutral: #8A8C99;
+    --crit-wash: #FBEBEC; --good-wash: #E7F4EC; --neutral-wash: #EEEDF1;
+  }
+  :root[data-theme="dark"] {
+    --ground: #0F1118; --surface: #161826; --surface-2: #1D2032; --line: #262A3D;
+    --line-strong: #343954; --ink: #ECEBF4; --ink-2: #A9A7BD; --muted: #7B7D91;
+    --accent: #9885F0; --accent-ink: #B4A5F7; --accent-wash: #211F3A;
+    --critical: #F1666A; --caution: #E0A22E; --good: #45C07E; --neutral: #7B7D91;
+    --crit-wash: #2E1A1F; --good-wash: #14271E; --neutral-wash: #1E2130;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: var(--sans); line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 32px 24px 64px; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+  /* header */
+  header { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 28px; }
+  .topline { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .classif {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent-ink); border: 1px solid var(--accent); border-radius: 999px;
+    padding: 3px 10px; white-space: nowrap;
+  }
+  h1 { font-size: 30px; font-weight: 750; letter-spacing: -.02em; margin: 14px 0 6px; line-height: 1.12; }
+  .sub { color: var(--ink-2); font-size: 15px; max-width: 62ch; }
+  .metaline { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 12px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .metaline b { color: var(--ink-2); font-weight: 600; }
+
+  /* verdict */
+  .verdict {
+    display: grid; grid-template-columns: 4px 1fr; gap: 16px; align-items: stretch;
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 0; overflow: hidden; margin-bottom: 28px;
+  }
+  .verdict .stripe { background: var(--caution); }
+  .verdict .body { padding: 16px 18px; }
+  .verdict .eyebrow { margin-bottom: 6px; }
+  .verdict p { margin: 0; font-size: 15px; color: var(--ink); }
+  .verdict strong { color: var(--caution); }
+
+  section { margin-bottom: 32px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; }
+  .sec-head h2 { font-size: 13px; font-family: var(--mono); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+  .sec-head .rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* stat tiles */
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .tile {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 2px;
+  }
+  .tile .num { font-size: 34px; font-weight: 760; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1; }
+  .tile .lbl { font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .tile .note { font-size: 12px; color: var(--ink-2); }
+  .tile.crit .num { color: var(--critical); }
+  .tile.good .num { color: var(--good); }
+  .tile.accent .num { color: var(--accent-ink); }
+
+  /* coverage meter */
+  .meter-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+  .meter-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+  .meter-top .big { font-size: 15px; font-weight: 650; }
+  .meter-top .pct { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+  .track {
+    display: flex; gap: 2px; height: 30px; background: var(--surface-2);
+    border-radius: 6px; padding: 3px; overflow: hidden;
+  }
+  .cell { flex: 1; border-radius: 3px; background: var(--neutral-wash); border: 1px solid var(--line); position: relative; }
+  .cell.val { background: var(--good); border-color: var(--good); animation: pop .5s ease both; }
+  .cell.partial { background: repeating-linear-gradient(45deg, var(--caution) 0 4px, transparent 4px 8px); border-color: var(--caution); }
+  .cell.crown { border-color: var(--critical); border-width: 1.5px; }
+  @keyframes pop { from { transform: scaleY(.4); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+  .meter-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 12px; color: var(--ink-2); }
+  .meter-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 11px; height: 11px; border-radius: 3px; border: 1px solid var(--line-strong); flex: none; }
+
+  /* technique matrix */
+  .matrix { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .tech {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+  }
+  .tech .tid { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--ink); white-space: nowrap; }
+  .tech .tname { font-size: 12.5px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .crown-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; color: var(--critical); border: 1px solid var(--critical); border-radius: 4px; padding: 1px 4px; margin-left: 6px; vertical-align: middle; }
+  .chip {
+    font-family: var(--mono); font-size: 10px; letter-spacing: .04em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;
+  }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; flex: none; }
+  .chip.val { background: var(--good-wash); color: var(--good); } .chip.val::before { background: var(--good); }
+  .chip.none { background: var(--neutral-wash); color: var(--muted); } .chip.none::before { background: var(--neutral); }
+  .chip.part { background: var(--crit-wash); color: var(--caution); } .chip.part::before { background: var(--caution); }
+
+  /* severity bars */
+  .sev { display: flex; flex-direction: column; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; }
+  .sev-row { display: grid; grid-template-columns: 130px 1fr 30px; align-items: center; gap: 12px; }
+  .sev-row .k { font-family: var(--mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); display: flex; align-items: center; gap: 7px; }
+  .sev-row .k .dot { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+  .bar { height: 12px; border-radius: 4px 3px 3px 4px; }
+  .sev-row .v { font-family: var(--mono); font-size: 13px; text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  /* gaps */
+  .gaps { display: flex; flex-direction: column; gap: 10px; }
+  .gap { display: grid; grid-template-columns: 4px auto 1fr; gap: 14px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+  .gap .st { align-self: stretch; }
+  .gap .pri { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; padding: 14px 0 0; font-weight: 700; }
+  .gap .txt { padding: 12px 16px 13px 0; }
+  .gap .txt h3 { font-size: 14px; font-weight: 650; margin-bottom: 3px; }
+  .gap .txt p { margin: 0; font-size: 13px; color: var(--ink-2); }
+  .gap.c1 .st { background: var(--critical); } .gap.c1 .pri { color: var(--critical); }
+  .gap.c2 .st { background: var(--caution); } .gap.c2 .pri { color: var(--caution); }
+  .gap.c3 .st { background: var(--neutral); } .gap.c3 .pri { color: var(--muted); }
+
+  /* recommendations */
+  .recs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .rec { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 13px 15px; display: flex; gap: 11px; }
+  .rec .n { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--accent-ink); flex: none; }
+  .rec p { margin: 0; font-size: 13px; color: var(--ink-2); }
+  .rec p b { color: var(--ink); font-weight: 600; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 16px; font-family: var(--mono); font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 680px) {
+    .tiles, .matrix, .recs { grid-template-columns: 1fr; }
+    .sev-row { grid-template-columns: 110px 1fr 28px; }
+    h1 { font-size: 25px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .cell.val { animation: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="topline">
+      <span class="eyebrow">Purple Team Exercise · Detection Coverage</span>
+      <span class="classif">Internal · Exercise Record</span>
+    </div>
+    <h1>Screening Serpens (UNC1549)</h1>
+    <p class="sub">Validating our detection coverage against an Iran-nexus APT that disables Windows security telemetry <em>before</em> its malware runs — deploying the MiniUpdate &amp; MiniJunk V2 remote-access trojans through fake-recruitment lures.</p>
+    <div class="metaline">
+      <span><b>Date</b>&nbsp; 2026-07-19</span>
+      <span><b>Intel</b>&nbsp; Unit 42, Palo Alto Networks</span>
+      <span><b>Method</b>&nbsp; ingest → map → scan → validate</span>
+    </div>
+  </header>
+
+  <div class="verdict">
+    <div class="stripe"></div>
+    <div class="body">
+      <div class="eyebrow">Bottom line</div>
+      <p>The detection <strong>pipeline works</strong> and caught a high-severity attack behavior — but only <strong>~7% of planned techniques</strong> and <strong>none of the three crown-jewel techniques</strong> could be validated. The limiting factor is <strong>log visibility, not tooling</strong>.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head"><h2>At a glance</h2><span class="rule"></span></div>
+    <div class="tiles">
+      <div class="tile accent"><span class="num">14</span><span class="lbl">Techniques planned</span><span class="note">Flagged “simulate” from 24 extracted</span></div>
+      <div class="tile crit"><span class="num">7%</span><span class="lbl">Coverage validated</span><span class="note">1 of 14 techniques</span></div>
+      <div class="tile crit"><span class="num">0 / 3</span><span class="lbl">Crown jewels covered</span><span class="note">Actor’s marquee techniques</span></div>
+      <div class="tile good"><span class="num">1</span><span class="lbl">High-severity detection</span><span class="note">PowerShell download-cradle</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Coverage map · 14 techniques</h2><span class="rule"></span></div>
+    <div class="meter-card">
+      <div class="meter-top">
+        <span class="big">1 validated · 1 partial · 12 dark</span>
+        <span class="pct">crown jewels outlined in red</span>
+      </div>
+      <div class="track" role="img" aria-label="1 of 14 techniques validated, 1 partial, 12 with no telemetry">
+        <div class="cell val" title="T1105 — validated"></div>
+        <div class="cell partial" title="T1204.002 — partial"></div>
+        <div class="cell crown" title="T1574.014 — no telemetry (crown jewel)"></div>
+        <div class="cell crown" title="T1574.002 — no telemetry (crown jewel)"></div>
+        <div class="cell crown" title="T1562.002 — no telemetry (crown jewel)"></div>
+        <div class="cell" title="T1053.005 — no telemetry"></div>
+        <div class="cell" title="T1036.004 — no telemetry"></div>
+        <div class="cell" title="T1036.005 — no telemetry"></div>
+        <div class="cell" title="T1564.001 — no telemetry"></div>
+        <div class="cell" title="T1059.003 — no telemetry"></div>
+        <div class="cell" title="T1548.002 — no telemetry"></div>
+        <div class="cell" title="T1057 — no telemetry"></div>
+        <div class="cell" title="T1497 — no telemetry"></div>
+        <div class="cell" title="T1027.001 — no telemetry"></div>
+      </div>
+      <div class="meter-legend">
+        <span><span class="sw" style="background:var(--good);border-color:var(--good)"></span> Validated</span>
+        <span><span class="sw" style="background:repeating-linear-gradient(45deg,var(--caution) 0 3px,transparent 3px 6px);border-color:var(--caution)"></span> Partial / context</span>
+        <span><span class="sw" style="background:var(--neutral-wash)"></span> No telemetry</span>
+        <span><span class="sw" style="background:transparent;border-color:var(--critical);border-width:1.5px"></span> Crown-jewel technique</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Technique status</h2><span class="rule"></span></div>
+    <div class="matrix">
+      <div class="tech"><span class="tid">T1105</span><span class="tname">Ingress Tool Transfer</span><span class="chip val">Validated</span></div>
+      <div class="tech"><span class="tid">T1204.002</span><span class="tname">User Execution</span><span class="chip part">Partial</span></div>
+      <div class="tech"><span class="tid">T1574.014</span><span class="tname">AppDomainManager Hijack<span class="crown-tag">CROWN</span></span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1574.002</span><span class="tname">DLL Side-Loading<span class="crown-tag">CROWN</span></span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1562.002</span><span class="tname">Disable ETW / Logging<span class="crown-tag">CROWN</span></span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1053.005</span><span class="tname">Scheduled Task</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1036.004</span><span class="tname">Masquerade Task/Service</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1036.005</span><span class="tname">Match Legitimate Name</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1564.001</span><span class="tname">Hidden Files</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1059.003</span><span class="tname">Windows Command Shell</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1548.002</span><span class="tname">Bypass UAC</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1057</span><span class="tname">Process Discovery</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1497</span><span class="tname">Sandbox Evasion</span><span class="chip none">No telemetry</span></div>
+      <div class="tech"><span class="tid">T1027.001</span><span class="tname">Binary Padding</span><span class="chip none">No telemetry</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Detections by severity</h2><span class="rule"></span></div>
+    <div class="sev">
+      <div class="sev-row">
+        <span class="k"><span class="dot" style="background:var(--critical)"></span>High</span>
+        <span class="bar" style="width:25%;background:var(--critical)"></span>
+        <span class="v">1</span>
+      </div>
+      <div class="sev-row">
+        <span class="k"><span class="dot" style="background:var(--caution)"></span>Medium</span>
+        <span class="bar" style="width:2px;background:var(--line-strong)"></span>
+        <span class="v">0</span>
+      </div>
+      <div class="sev-row">
+        <span class="k"><span class="dot" style="background:var(--neutral)"></span>Low</span>
+        <span class="bar" style="width:2px;background:var(--line-strong)"></span>
+        <span class="v">0</span>
+      </div>
+      <div class="sev-row">
+        <span class="k"><span class="dot" style="background:var(--muted)"></span>Informational</span>
+        <span class="bar" style="width:75%;background:var(--muted)"></span>
+        <span class="v">3</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Gaps · prioritized</h2><span class="rule"></span></div>
+    <div class="gaps">
+      <div class="gap c1">
+        <div class="st"></div><div class="pri">Critical</div>
+        <div class="txt"><h3>Crown-jewel blind spot</h3><p>The three techniques Unit 42 says defenders must catch — AppDomainManager hijacking, DLL side-loading, ETW tamper — produced <b>zero telemetry</b>. Sysmon EID 7 (image/module load) was absent entirely.</p></div>
+      </div>
+      <div class="gap c2">
+        <div class="st"></div><div class="pri">High</div>
+        <div class="txt"><h3>SIEM correlation unconfirmed</h3><p>No live SIEM connection this run — correlation queries are staged but not executed. Half of the validation remains theoretical.</p></div>
+      </div>
+      <div class="gap c3">
+        <div class="st"></div><div class="pri">Medium</div>
+        <div class="txt"><h3>Proxy ≠ real TTP</h3><p>The one detected technique used a PowerShell cradle; the actual campaign delivers via certutil / browser chain. Representative, not exact.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Recommendations</h2><span class="rule"></span></div>
+    <div class="recs">
+      <div class="rec"><span class="n">01</span><p><b>Close the visibility gap.</b> Collect &amp; forward Sysmon (EID 7, 13) and Security (4688, 4698) logs — then re-run to prove crown-jewel coverage.</p></div>
+      <div class="rec"><span class="n">02</span><p><b>Confirm SIEM coverage.</b> Run the staged queries; verify PowerShell script-block logging is enabled and flowing fleet-wide.</p></div>
+      <div class="rec"><span class="n">03</span><p><b>Tune EDR.</b> Treat DLL sideloading and AppDomainManager hijacking as high-risk — signed binaries loading untrusted modules.</p></div>
+      <div class="rec"><span class="n">04</span><p><b>Verify &amp; re-run.</b> Confirm the disputed Atomic test IDs against a real checkout, then repeat the exercise for full coverage.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Screening Serpens · Purple Team Exercise Record</span>
+    <span>Generated 2026-07-19 · /purple-loop</span>
+  </footer>
+</div>
