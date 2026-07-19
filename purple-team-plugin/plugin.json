@@ -1,0 +1,22 @@
+{
+  "name": "purple-team-workflow",
+  "version": "1.0.0",
+  "description": "End-to-end purple team workflow for Claude Code",
+  "author": "Fayeeka",
+  "components": {
+    "skills": ["detection-engineering"],
+    "commands": ["ingest-ti", "query", "purple-loop"],
+    "agents": ["atomic-mapper"],
+    "hooks": true,
+    "mcp": true
+  },
+  "dependencies": {
+    "external": [
+      "hayabusa",
+      "defuddle-cli"
+    ],
+    "mcp-servers": [
+      "hayabusa"
+    ]
+  }
+}
